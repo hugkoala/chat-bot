@@ -42,14 +42,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="62" />
-          <entry key="gitignore" value="23" />
-          <entry key="py" value="3170" />
+          <entry key="gitignore" value="32" />
+          <entry key="py" value="3171" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="23" />
-          <entry key="Python" value="3232" />
+          <entry key="PLAIN_TEXT" value="32" />
+          <entry key="Python" value="3233" />
         </counts>
       </usages-collector>
     </session>
@@ -64,8 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="36" lean-forward="true" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+            <state relative-caret-position="221">
+              <caret line="13" column="203" selection-start-line="13" selection-start-column="203" selection-end-line="13" selection-end-column="203" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -76,8 +76,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="373">
-              <caret line="112" column="19" lean-forward="true" selection-start-line="112" selection-start-column="19" selection-end-line="112" selection-end-column="19" />
+            <state relative-caret-position="424">
+              <caret line="117" column="8" selection-start-line="117" selection-start-column="8" selection-end-line="117" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -86,7 +86,7 @@
         <entry file="file://$PROJECT_DIR$/webview_api.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
-              <caret line="2" column="74" lean-forward="true" selection-start-line="2" selection-start-column="74" selection-end-line="2" selection-end-column="74" />
+              <caret line="2" column="74" selection-start-line="2" selection-start-column="74" selection-end-line="2" selection-end-column="74" />
             </state>
           </provider>
         </entry>
@@ -95,7 +95,7 @@
         <entry file="file://$PROJECT_DIR$/image_api.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
-              <caret line="17" column="11" lean-forward="true" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
+              <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -155,17 +155,6 @@
               <item name="chat-bot" type="b2602c69:ProjectViewProjectNode" />
               <item name="chat-bot" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="chat-bot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat-bot" type="462c0819:PsiDirectoryNode" />
-              <item name="assert" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat-bot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat-bot" type="462c0819:PsiDirectoryNode" />
-              <item name="assert" type="462c0819:PsiDirectoryNode" />
-              <item name="2121281321261787" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -195,7 +184,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.webview_api">
+  <component name="RunManager" selected="Python.api">
     <configuration name="api" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="chat-bot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -332,8 +321,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.webview_api" />
         <item itemvalue="Python.api" />
+        <item itemvalue="Python.webview_api" />
         <item itemvalue="Python.image-api" />
         <item itemvalue="Python.image" />
         <item itemvalue="Python.main" />
@@ -451,7 +440,7 @@
     <entry file="file://$PROJECT_DIR$/image_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="17" column="11" lean-forward="true" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
+          <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -461,14 +450,14 @@
     <entry file="file://$PROJECT_DIR$/webview_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
-          <caret line="2" column="74" lean-forward="true" selection-start-line="2" selection-start-column="74" selection-end-line="2" selection-end-column="74" />
+          <caret line="2" column="74" selection-start-line="2" selection-start-column="74" selection-end-line="2" selection-end-column="74" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="36" lean-forward="true" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+        <state relative-caret-position="221">
+          <caret line="13" column="203" selection-start-line="13" selection-start-column="203" selection-end-line="13" selection-end-column="203" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
@@ -477,8 +466,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="112" column="19" lean-forward="true" selection-start-line="112" selection-start-column="19" selection-end-line="112" selection-end-column="19" />
+        <state relative-caret-position="424">
+          <caret line="117" column="8" selection-start-line="117" selection-start-column="8" selection-end-line="117" selection-end-column="8" />
         </state>
       </provider>
     </entry>
