@@ -8,8 +8,8 @@ API_ROOT = '/'
 FB_WEBHOOK = 'webhook'
 
 app = Flask(__name__)
-VERIFY_TOKEN = "YOUR_ACCESS_TOKEN"
-ACCESS_TOKEN = "YOUR_ACCESS_TOKEN"
+# VERIFY_TOKEN = "YOUR_ACCESS_TOKEN"
+# ACCESS_TOKEN = "YOUR_ACCESS_TOKEN"
 bot = Bot(ACCESS_TOKEN)
 
 
@@ -24,7 +24,7 @@ def fb_receive_message():
     elif request.method == "POST":
         inputJson = request.get_json()
         print(inputJson)
-        for event in  inputJson["entry"]:
+        for event in inputJson["entry"]:
             messaging = event["messaging"]
             for message in messaging:
                 recipient_id = message["sender"]["id"]

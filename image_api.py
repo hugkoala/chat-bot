@@ -23,7 +23,6 @@ class UserAssert:
 
     def create_folder(self):
         path = os.getcwd() + '/assert/' + self.user_id
-        print(os.path.exists(path))
         try:
             if not os.path.exists(path):
                 os.makedirs(path)
