@@ -116,3 +116,4 @@ dmypy.json
 # User-define
 .assert
 assert/
+test.py
