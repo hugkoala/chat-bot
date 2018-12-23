@@ -8,7 +8,8 @@ from db import FbUser
 import requests
 
 # ngrok url
-url = ''
+# url = ''
+
 
 API_ROOT = '/'
 FB_WEBHOOK = 'webhook'
@@ -19,27 +20,19 @@ app = Flask(__name__)
 
 bot = Bot(ACCESS_TOKEN)
 
+
 @app.route(API_ROOT + "delete/<id>", methods=["GET", "DELETE"])
 def delete(id):
-    print(request)
     if request.method == "GET":
         delete_result = redirect_delete_url(request.url)
-        print(delete_result)
-        if delete_result == True:
-            return app.make_response(("Delete Success", 200))
 
+        if delete_result:
+            return app.make_response(("Delete Success", 200))
 
     elif request.method == "DELETE":
         fb_user = FbUser()
         fb_user.delete({"_id": ObjectId(id)}, 'one')
         return app.make_response(("Delete Success", 204))
-
-
-def redirect_delete_url(delete_url):
-    delete_response = requests.delete(delete_url)
-    if delete_response.status_code == 204:
-        return True
-
 
 
 @app.route(API_ROOT + FB_WEBHOOK, methods=["GET", "POST"])
@@ -65,18 +58,18 @@ def fb_receive_message():
                     if message["message"].get("attachments"):
                         attachments = message["message"]["attachments"]
                         for attachment in attachments:
-                            send_attachment(recipient_id, attachment["type"], attachment["payload"]["url"])
+                            # send_attachment(recipient_id, attachment["type"], attachment["payload"]["url"])
                             user_assert.download_picture(attachment["payload"]["url"])
-                            send_message(recipient_id, "Download Your Picture to your folder")
-
+                            send_message(recipient_id, key_to_functions_to_strings("yes"))
                 elif message.get("postback"):
-
                     if message["postback"]["payload"] == "yes":
-                        send_message(recipient_id, key_to_functions_to_strings("yes"))
+                        print()
                     elif message["postback"]["payload"] == "no":
                         send_message(recipient_id, key_to_functions_to_strings("no"))
                     elif message["postback"]["payload"] == "picture_show":
                         key_to_functions_to_strings('picture_show', recipient_id)
+                    elif message["postback"]["payload"] == "picture_delete_all":
+                        key_to_functions_to_strings('picture_delete_all', recipient_id)
 
         return app.make_response(("post success", 200))
     else:
@@ -92,22 +85,17 @@ def send_message(recipient_id, response):
 def send_attachment(recipient_id, type, attachment_url):
     if type == "image":
         bot.send_image_url(recipient_id, attachment_url)
-        # obj = []
-        # yes = dict(); yes['type'] = 'postback'; yes['title'] = 'Yes!'; yes['payload'] = 'yes'
-        # no = dict(); no['type'] = 'postback'; no['title'] = 'No!'; no['payload'] = 'no'
-        # obj.append(yes); obj.append(no)
-        # bot.send_button_message(recipient_id, "是否正確?", json.dumps(obj))
-        bot.send_button_message(recipient_id, "是否正確?", [{
-                "type": "postback",
-                "title": "Yes!",
-                "payload": "yes"
-            },
-            {
-                "type": "postback",
-                "title": "No!",
-                "payload": "no"
-            }]
-        )
+        # bot.send_button_message(recipient_id, "是否正確?", [{
+        #         "type": "postback",
+        #         "title": "Yes!",
+        #         "payload": "yes"
+        #     },
+        #     {
+        #         "type": "postback",
+        #         "title": "No!",
+        #         "payload": "no"
+        #     }]
+        # )
 
 
 def verify_fb_token(verify_token):
@@ -118,11 +106,19 @@ def verify_fb_token(verify_token):
 
 
 def yes():
-    return "Thanks so much!"
+    return "Save your picture!"
 
 
 def no():
     return "Oh no! Can you delivery again?"
+
+
+def show():
+    return 'Please press Delete Button to Delete'
+
+
+def delete_all():
+    return 'Delete All Picture!'
 
 
 def picture_show(*args):
@@ -133,8 +129,6 @@ def picture_show(*args):
     """
 
     recipient_id = args[0][0]
-    userAssert = UserAssert(recipient_id)
-    # bot.send_image(recipient_id, userAssert.get_folder_path())
     fb_user = FbUser()
     elements = list()
     cnt = 1
@@ -142,23 +136,33 @@ def picture_show(*args):
         obj = dict()
         obj['image_url'] = data['image_url']
         obj['title'] = cnt
-        obj['buttons'] = [{"title": "delete", "payload": "delete", "type": "postback"}, {"title": "test", "type": "web_url", "url": url + "delete/" + str(data['_id'])}]
+        obj['buttons'] = [{"title": "Delete", "type": "web_url", "url": url + "delete/" + str(data['_id']), "webview_height_ratio": "COMPACT"}]
         elements.append(obj)
 
         if cnt % 10 == 0:
             bot.send_generic_message(recipient_id, elements)
             elements = list()
-
         cnt += 1
     else:
         bot.send_generic_message(recipient_id, elements)
+    send_message(recipient_id, key_to_functions_to_strings("show"))
+
+
+def picture_delete_all(*args):
+    recipient_id = args[0][0]
+    fb_user = FbUser()
+    fb_user.delete({"user": recipient_id}, 'many')
+    send_message(recipient_id, key_to_functions_to_strings("delete_all"))
 
 
 def key_to_functions_to_strings(argument, *args):
     switcher = {
         'yes': yes,
         'no': no,
-        'picture_show': picture_show
+        'show': show,
+        'delete_all': delete_all,
+        'picture_show': picture_show,
+        'picture_delete_all': picture_delete_all
     }
     # Get the function from switcher dictionary
     func = switcher.get(argument)
@@ -169,9 +173,13 @@ def key_to_functions_to_strings(argument, *args):
         return func(args)
 
 
+def redirect_delete_url(delete_url):
+    delete_response = requests.delete(delete_url)
+    if delete_response.status_code == 204:
+        return True
+
+
 if __name__ == '__main__':
-    # context = ('ssl/fullchain.pem', 'ssl/privkey.pem')
-    # app.run(host='0.0.0.0', debug=True, ssl_context=context)
     app.run()
 
 
