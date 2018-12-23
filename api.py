@@ -1,18 +1,44 @@
+# import from external
 from flask import Flask, request
 from pymessenger.bot import Bot
+from bson.objectid import ObjectId
+# import from local
 from image_api import UserAssert
-from os import listdir
+from db import FbUser
+import requests
 
-
-
+# ngrok url
+url = ''
 
 API_ROOT = '/'
 FB_WEBHOOK = 'webhook'
 
 app = Flask(__name__)
-VERIFY_TOKEN = "YOUR_ACCESS_TOKEN"
-ACCESS_TOKEN = "YOUR_ACCESS_TOKEN"
+# VERIFY_TOKEN = "YOUR_ACCESS_TOKEN"
+# ACCESS_TOKEN = "YOUR_ACCESS_TOKEN"
+
 bot = Bot(ACCESS_TOKEN)
+
+@app.route(API_ROOT + "delete/<id>", methods=["GET", "DELETE"])
+def delete(id):
+    print(request)
+    if request.method == "GET":
+        delete_result = redirect_delete_url(request.url)
+        print(delete_result)
+        if delete_result == True:
+            return app.make_response(("Delete Success", 200))
+
+
+    elif request.method == "DELETE":
+        fb_user = FbUser()
+        fb_user.delete({"_id": ObjectId(id)}, 'one')
+        return app.make_response(("Delete Success", 204))
+
+
+def redirect_delete_url(delete_url):
+    delete_response = requests.delete(delete_url)
+    if delete_response.status_code == 204:
+        return True
 
 
 
@@ -39,7 +65,7 @@ def fb_receive_message():
                     if message["message"].get("attachments"):
                         attachments = message["message"]["attachments"]
                         for attachment in attachments:
-                            # send_attachment(recipient_id, attachment["type"], attachment["payload"]["url"])
+                            send_attachment(recipient_id, attachment["type"], attachment["payload"]["url"])
                             user_assert.download_picture(attachment["payload"]["url"])
                             send_message(recipient_id, "Download Your Picture to your folder")
 
@@ -55,12 +81,6 @@ def fb_receive_message():
         return app.make_response(("post success", 200))
     else:
         return app.make_response(("Method Not Allowed", 405))
-
-
-# def get_message():
-#     sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
-#     # return selected item to the user
-#     return random.choice(sample_responses)
 
 
 def send_message(recipient_id, response):
@@ -115,13 +135,23 @@ def picture_show(*args):
     recipient_id = args[0][0]
     userAssert = UserAssert(recipient_id)
     # bot.send_image(recipient_id, userAssert.get_folder_path())
-    allUserFiles = listdir(userAssert.get_folder_path())
+    fb_user = FbUser()
+    elements = list()
+    cnt = 1
+    for data in fb_user.select({"user": recipient_id}):
+        obj = dict()
+        obj['image_url'] = data['image_url']
+        obj['title'] = cnt
+        obj['buttons'] = [{"title": "delete", "payload": "delete", "type": "postback"}, {"title": "test", "type": "web_url", "url": url + "delete/" + str(data['_id'])}]
+        elements.append(obj)
 
-    for userFile in allUserFiles:
-        userFileUrl = userAssert.get_folder_path() + '/' + userFile
-        print(userFileUrl)
-        bot.send_image(recipient_id, userFileUrl)
+        if cnt % 10 == 0:
+            bot.send_generic_message(recipient_id, elements)
+            elements = list()
 
+        cnt += 1
+    else:
+        bot.send_generic_message(recipient_id, elements)
 
 
 def key_to_functions_to_strings(argument, *args):

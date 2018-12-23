@@ -15,10 +15,7 @@ class FbUser:
         self.fbUser = self.useDb['fb_user']
 
     def select(self, obj):
-        if len(obj.keys()) == 0:
-            return self.fbUser.find()
-        else:
-            return self.fbUser.find({}, obj)
+        return self.fbUser.find(obj)
 
     def insert(self, obj):
         if isinstance(obj, dict):
@@ -33,4 +30,11 @@ class FbUser:
             self.fbUser.delete_many(obj)
 
 
+if __name__ == '__main__':
+    fb_user = FbUser()
+    # for data in fb_user.select({"user": "2121281321261787"}):
+    for data in fb_user.fbUser.find():
+        print(data)
+        print(data['image_url'])
+        print(type(data['_id']))
 
